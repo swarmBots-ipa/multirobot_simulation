@@ -5,16 +5,9 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /Map1
-        - /Map1/Status1
-        - /Map1/Topic1
-        - /LaserScan1
-        - /LaserScan2
-        - /ParticleCloud1
-        - /ParticleCloud1/Status1
-        - /ParticleCloud1/Topic1
+        - /Map1/Position1
       Splitter Ratio: 0.5
-    Tree Height: 553
+    Tree Height: 719
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -104,45 +97,35 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: ""
       Value: false
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz_default_plugins/LaserScan
-      Color: 170; 0; 0
-      Color Transformer: FlatColor
-      Decay Time: 0
-      Enabled: true
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 0
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: LaserScan
-      Position Transformer: XYZ
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Points
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        Filter size: 10
-        History Policy: Keep Last
-        Reliability Policy: Best Effort
-        Value: /barista_1/scan
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: true
     - Class: rviz_default_plugins/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        barista_0/barista_bottom_link:
+          Value: true
+        barista_0/barista_top_link:
+          Value: true
+        barista_0/base_footprint:
+          Value: true
+        barista_0/base_link:
+          Value: true
+        barista_0/caster_back_link:
+          Value: true
+        barista_0/caster_front_link:
+          Value: true
+        barista_0/cliff_sensor_front_link:
+          Value: true
+        barista_0/cliff_sensor_left_link:
+          Value: true
+        barista_0/cliff_sensor_right_link:
+          Value: true
+        barista_0/gyro_link:
+          Value: true
+        barista_0/laser_sensor_link:
+          Value: true
+        barista_0/odom:
+          Value: true
         barista_1/barista_bottom_link:
           Value: true
         barista_1/barista_top_link:
@@ -191,15 +174,60 @@ Visualization Manager:
           Value: true
         barista_2/odom:
           Value: true
+        barista_3/barista_bottom_link:
+          Value: true
+        barista_3/barista_top_link:
+          Value: true
+        barista_3/base_footprint:
+          Value: true
+        barista_3/base_link:
+          Value: true
+        barista_3/caster_back_link:
+          Value: true
+        barista_3/caster_front_link:
+          Value: true
+        barista_3/cliff_sensor_front_link:
+          Value: true
+        barista_3/cliff_sensor_left_link:
+          Value: true
+        barista_3/cliff_sensor_right_link:
+          Value: true
+        barista_3/gyro_link:
+          Value: true
+        barista_3/laser_sensor_link:
+          Value: true
+        barista_3/odom:
+          Value: true
         map:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: false
       Tree:
         map:
+          barista_0/odom:
+            barista_0/base_footprint:
+              barista_0/base_link:
+                barista_0/barista_bottom_link:
+                  {}
+                barista_0/barista_top_link:
+                  {}
+                barista_0/caster_back_link:
+                  {}
+                barista_0/caster_front_link:
+                  {}
+                barista_0/cliff_sensor_front_link:
+                  {}
+                barista_0/cliff_sensor_left_link:
+                  {}
+                barista_0/cliff_sensor_right_link:
+                  {}
+                barista_0/gyro_link:
+                  {}
+                barista_0/laser_sensor_link:
+                  {}
           barista_1/odom:
             barista_1/base_footprint:
               barista_1/base_link:
@@ -242,7 +270,62 @@ Visualization Manager:
                   {}
                 barista_2/laser_sensor_link:
                   {}
+          barista_3/odom:
+            barista_3/base_footprint:
+              barista_3/base_link:
+                barista_3/barista_bottom_link:
+                  {}
+                barista_3/barista_top_link:
+                  {}
+                barista_3/caster_back_link:
+                  {}
+                barista_3/caster_front_link:
+                  {}
+                barista_3/cliff_sensor_front_link:
+                  {}
+                barista_3/cliff_sensor_left_link:
+                  {}
+                barista_3/cliff_sensor_right_link:
+                  {}
+                barista_3/gyro_link:
+                  {}
+                barista_3/laser_sensor_link:
+                  {}
       Update Interval: 0
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/LaserScan
+      Color: 252; 233; 79
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 0
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /barista_0/scan
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
@@ -274,7 +357,75 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
+        Value: /barista_1/scan
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/LaserScan
+      Color: 52; 101; 164
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 0
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
         Value: /barista_2/scan
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/LaserScan
+      Color: 239; 41; 41
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 0
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /barista_3/scan
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -292,7 +443,55 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Best Effort
+        Value: /barista_0/particle_cloud
+      Value: true
+    - Alpha: 1
+      Class: nav2_rviz_plugins/ParticleCloud
+      Color: 255; 25; 0
+      Enabled: true
+      Max Arrow Length: 0.30000001192092896
+      Min Arrow Length: 0.019999999552965164
+      Name: ParticleCloud
+      Shape: Arrow (Flat)
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
         Value: /barista_1/particle_cloud
+      Value: true
+    - Alpha: 1
+      Class: nav2_rviz_plugins/ParticleCloud
+      Color: 255; 25; 0
+      Enabled: true
+      Max Arrow Length: 0.30000001192092896
+      Min Arrow Length: 0.019999999552965164
+      Name: ParticleCloud
+      Shape: Arrow (Flat)
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /barista_2/particle_cloud
+      Value: true
+    - Alpha: 1
+      Class: nav2_rviz_plugins/ParticleCloud
+      Color: 255; 25; 0
+      Enabled: true
+      Max Arrow Length: 0.30000001192092896
+      Min Arrow Length: 0.019999999552965164
+      Name: ParticleCloud
+      Shape: Arrow (Flat)
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /barista_3/particle_cloud
       Value: true
   Enabled: true
   Global Options:
@@ -340,33 +539,33 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 15.5656156539917
+      Distance: 10.261961936950684
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1.2285038232803345
-        Y: -2.130946159362793
-        Z: -0.31738460063934326
+        X: 2.873110294342041
+        Y: 0.8850018382072449
+        Z: 2.220867872238159
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 1.5047963857650757
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.218573808670044
+      Yaw: 4.74855899810791
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 851
+  Height: 1016
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001a7000002b4fc0200000007fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003e000002b4000000cb00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002b4fc0200000004fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003e000000810000005d00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003e000000a90000000000000000fb0000000a0056006900650077007301000000c50000022d000000a500fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000006400000003efc0100000002fb0000000800540069006d00650100000000000006400000026c00fffffffb0000000800540069006d006501000000000000045000000000000000000000037e000002b400000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001f80000035afc0200000007fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d0000035a000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f0000035afc0200000004fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003d000000a00000005c00fffffffb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003e000000a90000000000000000fb0000000a0056006900650077007301000000e3000002b4000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000007380000003efc0100000002fb0000000800540069006d0065010000000000000738000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000004250000035a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -375,6 +574,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1600
-  X: 0
-  Y: 0
+  Width: 1848
+  X: 72
+  Y: 27

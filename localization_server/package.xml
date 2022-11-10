@@ -7,6 +7,9 @@
   <maintainer email="user@todo.todo">user</maintainer>
   <license>TODO: License declaration</license>
 
+  <depend>nav2_amcl</depend>
+  <depend>nav2_map_server</depend>
+  <depend>nav2_lifecycle_manager</depend>
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

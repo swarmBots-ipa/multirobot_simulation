@@ -17,7 +17,7 @@ def generate_launch_description():
         'localization_server'), 'config', 'barista_3_amcl_config.yaml')
 
     map_file = os.path.join(get_package_share_directory(
-        'localization_server'), 'config', 'cafe_map.yaml')
+        'localization_server'), 'config', 'empty_room.yaml')
 
     return LaunchDescription([
         Node(

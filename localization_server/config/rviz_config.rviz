@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: Barista_0_LaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -311,7 +311,7 @@ Visualization Manager:
       Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: LaserScan
+      Name: Barista_0_LaserScan
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
@@ -345,7 +345,7 @@ Visualization Manager:
       Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: LaserScan
+      Name: Barista_1_LaserScan
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
@@ -379,7 +379,7 @@ Visualization Manager:
       Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: LaserScan
+      Name: Barista_2_LaserScan
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
@@ -413,7 +413,7 @@ Visualization Manager:
       Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: LaserScan
+      Name: Barista_3_LaserScan
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
@@ -435,7 +435,7 @@ Visualization Manager:
       Enabled: true
       Max Arrow Length: 0.30000001192092896
       Min Arrow Length: 0.019999999552965164
-      Name: ParticleCloud
+      Name: Barista_0_cloud
       Shape: Arrow (Flat)
       Topic:
         Depth: 5
@@ -451,7 +451,7 @@ Visualization Manager:
       Enabled: true
       Max Arrow Length: 0.30000001192092896
       Min Arrow Length: 0.019999999552965164
-      Name: ParticleCloud
+      Name: Barista_1_cloud
       Shape: Arrow (Flat)
       Topic:
         Depth: 5
@@ -467,7 +467,7 @@ Visualization Manager:
       Enabled: true
       Max Arrow Length: 0.30000001192092896
       Min Arrow Length: 0.019999999552965164
-      Name: ParticleCloud
+      Name: Barista_2_cloud
       Shape: Arrow (Flat)
       Topic:
         Depth: 5
@@ -483,7 +483,7 @@ Visualization Manager:
       Enabled: true
       Max Arrow Length: 0.30000001192092896
       Min Arrow Length: 0.019999999552965164
-      Name: ParticleCloud
+      Name: Barista_3_cloud
       Shape: Arrow (Flat)
       Topic:
         Depth: 5
@@ -516,14 +516,14 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: barista_2/initialpose
+        Value: barista_3/initialpose
     - Class: rviz_default_plugins/SetGoal
       Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /goal_pose
+        Value: barista_3/goal_pose
     - Class: rviz_default_plugins/PublishPoint
       Single click: true
       Topic:
@@ -539,25 +539,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10.261961936950684
+      Distance: 10.277548789978027
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.873110294342041
-        Y: 0.8850018382072449
-        Z: 2.220867872238159
+        X: 3.6790707111358643
+        Y: 2.0262274742126465
+        Z: -1.142682433128357
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5047963857650757
+      Pitch: 1.544796347618103
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.74855899810791
+      Yaw: 4.793561935424805
     Saved: ~
 Window Geometry:
   Displays:

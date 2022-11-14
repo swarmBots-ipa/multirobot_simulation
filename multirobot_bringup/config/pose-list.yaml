@@ -1,0 +1,34 @@
+move_to_spot:
+  ros__parameters:
+    spot_A:
+       x : 1.0 
+       y : 4.0
+       z : 0.0
+       ox : 0.0
+       oy : 0.0
+       oz : 0.0
+       ow : 0.0
+    spot_B:
+       x : 2.0
+       y : 4.0
+       z : 0.0
+       ox : 0.0
+       oy : 0.0
+       oz : 0.0
+       ow : 0.0
+    spot_C:
+       x : 3.0
+       y : 4.0
+       z : 0.0
+       ox : 0.0
+       oy : 0.0
+       oz : 0.0
+       ow : 0.0
+    spot_D:
+       x : 4.0
+       y : 4.0
+       z : 0.0
+       ox : 0.0
+       oy : 0.0
+       oz : 0.0
+       ow : 0.0

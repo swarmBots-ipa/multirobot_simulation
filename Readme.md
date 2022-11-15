@@ -6,6 +6,8 @@ Use only one robot to map the area and one need to do it only once.
 ```
 ros2 launch barista_gazebo main_one_robots.launch.xml
 
+ros2 launch cartographer_slam cartographer.launch.py
+
 ros2 run teleop_twist_keyboard teleop_twist_keyboard cmd_vel:=barista_1/cmd_vel
 
 ```

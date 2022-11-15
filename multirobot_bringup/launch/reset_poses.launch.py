@@ -6,14 +6,13 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     ld = LaunchDescription()
-    config = os.path.join(get_package_share_directory(
-        'multirobot_bringup'), 'config', 'pose-list.yaml')
+    #config = os.path.join(get_package_share_directory(
+    #    'multirobot_bringup'), 'config', 'pose-list.yaml')
 
     node = Node(
-        package='multirobot_bringup',
-        name='move_to_spot',
-        executable='move_to_spot',
-        parameters=[config]
+        package='multirobot_navigation',
+        name='reset_poses',
+        executable='reset_pose'
     )
     ld.add_action(node)
     return ld

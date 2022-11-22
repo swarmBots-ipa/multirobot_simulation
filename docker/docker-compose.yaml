@@ -1,0 +1,15 @@
+version: '2.3'
+
+services:
+    swarm_bots:
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
+        network_mode: "host"
+        ipc: host
+        environment:
+            - ROS_DOMAIN_ID=2
+            - DISPLAY
+        volumes: 
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+        command: ros2 launch multirobot_bringup multirobot_bringup.launch.xml

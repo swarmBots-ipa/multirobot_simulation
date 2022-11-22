@@ -1,6 +1,6 @@
 barista_3/bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: true
     global_frame: map
     robot_base_frame: barista_3/base_link
     odom_topic: odom

@@ -12,7 +12,8 @@ WORKDIR $ros2_ws/src
 
 RUN git clone https://github.com/swarmBots-ipa/multirobot_navigation_sim.git
 WORKDIR $ros2_ws/src/multirobot_navigation_sim/path_planner_server/config
-RUN python3 utils.py
+RUN chmod +x utils.py \
+    && python3 utils.py
 
 WORKDIR $ros2_ws
     

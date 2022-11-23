@@ -7,6 +7,7 @@ from rclpy.node import Node
 from math import sin
 from math import cos
 from math import degrees
+from math import atan2
 
 
 class ComputeEdgePose(Node):
@@ -18,21 +19,33 @@ class ComputeEdgePose(Node):
         # Initiate the Node class's constructor and give it a name
         super().__init__('pallet_pose_publisher')
         # Create publishers to send goals to each robot
-        self.publish_goal_A = self.create_publisher(
+        self.publish_edge_A = self.create_publisher(
             PoseStamped, 'barista_0/goal_pose', 10)
-        self.publish_goal_B = self.create_publisher(
+        self.publish_edge_B = self.create_publisher(
             PoseStamped, 'barista_1/goal_pose', 10)
-        self.publish_goal_C = self.create_publisher(
+        self.publish_edge_C = self.create_publisher(
             PoseStamped, 'barista_2/goal_pose', 10)
-        self.publish_goal_D = self.create_publisher(
+        self.publish_edge_D = self.create_publisher(
             PoseStamped, 'barista_3/goal_pose', 10)
+        self.subscribe_palette_center = self.create_subscription(
+            PoseStamped, 'palette/goal_pose', self.get_palette_center_cb, 10)
 
+    def get_palette_center_cb(self, pose):
+        """
+        Callback Function to triger the compute_edge_pose() 
+        """
+        # convert the quaternion to theta
+        t3 = +2.0 * (pose.pose.orientation.w * pose.pose.orientation.z +
+                     pose.pose.orientation.x * pose.pose.orientation.y)
+        t4 = +1.0 - 2.0 * (pose.pose.orientation.y * pose.pose.orientation.y +
+                           pose.pose.orientation.z * pose.pose.orientation.z)
+        yaw = atan2(t3, t4)
         # send the center coordinates of the palett to estimate its edges
-        self.compute_edge_pose(center_x=3,
-                               center_y=4,
-                               center_theta=0,
-                               length=2,
-                               height=1.2)
+        self.compute_edge_pose(center_x=pose.pose.position.x,
+                               center_y=pose.pose.position.y,
+                               center_theta=yaw,
+                               length=1.4,
+                               height=0.8)
 
     def compute_edge_pose(self, center_x, center_y, center_theta, length, height):
         """
@@ -74,7 +87,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.z = 0.7071067811865476
         goal_pose.pose.orientation.w = 0.7071067811865476
         self.get_logger().info('Sending goal Pose A')
-        self.publish_goal_A.publish(goal_pose)
+        self.publish_edge_A.publish(goal_pose)
 
     def set_pose_B(self, bX, bY):
         """
@@ -91,7 +104,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.z = 0.7071067811865476
         goal_pose.pose.orientation.w = 0.7071067811865476
         self.get_logger().info('Sending goal Pose B')
-        self.publish_goal_B.publish(goal_pose)
+        self.publish_edge_B.publish(goal_pose)
 
     def set_pose_C(self, cX, cY):
         """
@@ -108,7 +121,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.z = 0.7071067811865476
         goal_pose.pose.orientation.w = 0.7071067811865476
         self.get_logger().info('Sending goal Pose C')
-        self.publish_goal_C.publish(goal_pose)
+        self.publish_edge_C.publish(goal_pose)
 
     def set_pose_D(self, dX, dY):
         """
@@ -125,7 +138,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.z = 0.7071067811865476
         goal_pose.pose.orientation.w = 0.7071067811865476
         self.get_logger().info('Sending goal Pose D')
-        self.publish_goal_D.publish(goal_pose)
+        self.publish_edge_D.publish(goal_pose)
 
 
 def main(args=None):

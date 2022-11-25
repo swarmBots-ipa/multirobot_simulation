@@ -9,13 +9,11 @@ from math import cos
 from math import degrees
 from math import atan2
 
-
 class ComputeEdgePose(Node):
-
+    """Compute the edge poses of the palette and publish the poses to the robots.
+    """
     def __init__(self):
-        """
-        Class constructor to set up the node
-        """
+
         # Initiate the Node class's constructor and give it a name
         super().__init__('pallet_pose_publisher')
         # Create publishers to send goals to each robot
@@ -31,8 +29,11 @@ class ComputeEdgePose(Node):
             PoseStamped, 'palette/goal_pose', self.get_palette_center_cb, 10)
 
     def get_palette_center_cb(self, pose):
-        """
-        Callback Function to triger the compute_edge_pose() 
+        """A callback to subscribe to 'palette/goal_pose'
+            and trigger compute_edge_pose()
+
+        Args:
+            pose (PoseStamped): pose of the geometric center of the palette 
         """
         # convert the quaternion to theta
         t3 = +2.0 * (pose.pose.orientation.w * pose.pose.orientation.z +
@@ -48,8 +49,14 @@ class ComputeEdgePose(Node):
                                height=0.8)
 
     def compute_edge_pose(self, center_x, center_y, center_theta, length, height):
-        """
-        Function to estimate the edge poses of the palette
+        """_summary_
+
+        Args:
+            center_x (float): geometric center x 
+            center_y (float): geometric center y 
+            center_theta (float): geometric center theta
+            length (int): longest side of the palette
+            height (int): shortest side of the palette
         """
         self.center_x = center_x  # geometric center x of the palette
         self.center_y = center_y  # geometric center y of the palette

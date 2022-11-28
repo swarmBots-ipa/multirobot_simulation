@@ -36,10 +36,10 @@ class ComputeEdgePose(Node):
             pose (PoseStamped): pose of the geometric center of the palette 
         """
         self.compute_edge_pose(pose,
-                               length=1.4,
-                               height=0.8)
+                               width=1.5,
+                               height=1)
 
-    def compute_edge_pose(self, pose, length, height):
+    def compute_edge_pose(self, pose, width, height):
         """Compute the poses of robots 0-3 and send them to the robots
 
         Args:
@@ -47,7 +47,7 @@ class ComputeEdgePose(Node):
             center_y (float): geometric center y 
             orientation_z (_type_): geometric center
             orientation_w (_type_): geometric center
-            length (int): longest side of the palette
+            width (int): longest side of the palette
             height (int): shortest side of the palette
         """
         # convert the quaternion to angle
@@ -63,16 +63,16 @@ class ComputeEdgePose(Node):
         self.orientation_z=pose.pose.orientation.z
         self.orientation_w=pose.pose.orientation.w
         self.angle = radians(yaw) # angle should be in radians
-        self.length = length  # longest side of the palette
+        self.width = width  # longest side of the palette
         self.height = height  # shortest side of the palette
 
-        aX, aY = self.center_x - 0.5*self.length*(sin(self.angle) + cos(
+        aX, aY = self.center_x - 0.5*self.width*(sin(self.angle) + cos(
             self.angle)), self.center_y - 0.5*self.height*(sin(self.angle) - cos(self.angle))
-        bX, bY = self.center_x + 0.5*self.length*(sin(self.angle) - cos(
+        bX, bY = self.center_x + 0.5*self.width*(sin(self.angle) - cos(
             self.angle)), self.center_y - 0.5*self.height*(sin(self.angle) + cos(self.angle))
-        cX, cY = self.center_x + 0.5*self.length*(sin(self.angle) + cos(
+        cX, cY = self.center_x + 0.5*self.width*(sin(self.angle) + cos(
             self.angle)), self.center_y + 0.5*self.height*(sin(self.angle) - cos(self.angle))
-        dX, dY = self.center_x - 0.5*self.length*(sin(self.angle) - cos(
+        dX, dY = self.center_x - 0.5*self.width*(sin(self.angle) - cos(
             self.angle)), self.center_y + 0.5*self.height*(sin(self.angle) + cos(self.angle))
 
         self.set_pose_A(aX, aY, self.orientation_z, self.orientation_w)
@@ -81,8 +81,13 @@ class ComputeEdgePose(Node):
         self.set_pose_D(dX, dY, self.orientation_z, self.orientation_w)
 
     def set_pose_A(self, aX, aY, orientation_z, orientation_w,):
-        """
-        Callback function.
+        """publish pose to Robot A
+
+        Args:
+            aX (float): x
+            aY (float): y
+            orientation_z (float): quaternions z
+            orientation_w (float): quaternions w
         """
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'
@@ -98,8 +103,13 @@ class ComputeEdgePose(Node):
         self.publish_edge_A.publish(goal_pose)
 
     def set_pose_B(self, bX, bY, orientation_z, orientation_w,):
-        """
-        Callback function.
+        """publish pose to Robot B
+
+        Args:
+            bX (float): x
+            bY (float): y
+            orientation_z (float): quaternions z
+            orientation_w (float): quaternions w
         """
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'
@@ -115,8 +125,13 @@ class ComputeEdgePose(Node):
         self.publish_edge_B.publish(goal_pose)
 
     def set_pose_C(self, cX, cY, orientation_z, orientation_w,):
-        """
-        Callback function.
+        """publish pose to Robot C
+
+        Args:
+            cX (float): x
+            cY (float): y
+            orientation_z (float): quaternions z
+            orientation_w (float): quaternions w
         """
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'
@@ -132,8 +147,13 @@ class ComputeEdgePose(Node):
         self.publish_edge_C.publish(goal_pose)
 
     def set_pose_D(self, dX, dY, orientation_z, orientation_w,):
-        """
-        Callback function.
+        """publish pose to Robot D
+
+        Args:
+            dX (float): x
+            dY (float): y
+            orientation_z (float): quaternions z
+            orientation_w (float): quaternions w
         """
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'

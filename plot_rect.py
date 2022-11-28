@@ -9,6 +9,12 @@
 # print("D: ", center_x - 0.5*width*(sin(angle) - cos(angle)), center_y + 0.5*height*(sin(angle) + cos(angle)))
 
 
+# aX, aY = self.center_x + ((self.width *0.5) * cos(self.angle)) - ((self.height *0.5) * sin(self.angle)), self.center_y + ((self.width *0.5) * sin(self.angle)) + ((self.height *0.5) * cos(self.angle))
+# bX, bY = self.center_x - ((self.width *0.5) * cos(self.angle)) - ((self.height *0.5) * sin(self.angle)), self.center_y - ((self.width *0.5) * sin(self.angle)) + ((self.height *0.5) * cos(self.angle))
+# cX, cY = self.center_x - ((self.width *0.5) * cos(self.angle)) + ((self.height *0.5) * sin(self.angle)), self.center_y - ((self.width *0.5) * sin(self.angle)) - ((self.height *0.5) * cos(self.angle))
+# dX, dY = self.center_x + ((self.width *0.5) * cos(self.angle)) + ((self.height *0.5) * sin(self.angle)), self.center_y + ((self.width *0.5) * sin(self.angle)) - ((self.height *0.5) * cos(self.angle))
+
+
 from math import sin
 from math import cos
 from math import degrees, radians
@@ -18,7 +24,7 @@ from matplotlib import pyplot as plt
 from shapely.geometry import Polygon
 
 
-angle = radians(180)
+angle = radians(60)
 center_x = 50
 center_y = 50
 width = 20

@@ -6,7 +6,7 @@ from rclpy.node import Node
 
 from math import sin
 from math import cos
-from math import degrees
+from math import degrees, radians
 from math import atan2
 
 class ComputeEdgePose(Node):
@@ -35,51 +35,52 @@ class ComputeEdgePose(Node):
         Args:
             pose (PoseStamped): pose of the geometric center of the palette 
         """
-        # convert the quaternion to theta
+        self.compute_edge_pose(pose,
+                               length=1.4,
+                               height=0.8)
+
+    def compute_edge_pose(self, pose, length, height):
+        """Compute the poses of robots 0-3 and send them to the robots
+
+        Args:
+            center_x (float): geometric center x 
+            center_y (float): geometric center y 
+            orientation_z (_type_): geometric center
+            orientation_w (_type_): geometric center
+            length (int): longest side of the palette
+            height (int): shortest side of the palette
+        """
+        # convert the quaternion to angle
         t3 = +2.0 * (pose.pose.orientation.w * pose.pose.orientation.z +
                      pose.pose.orientation.x * pose.pose.orientation.y)
         t4 = +1.0 - 2.0 * (pose.pose.orientation.y * pose.pose.orientation.y +
                            pose.pose.orientation.z * pose.pose.orientation.z)
         yaw = atan2(t3, t4)
-        # send the center coordinates of the palett to estimate its edges
-        self.compute_edge_pose(center_x=pose.pose.position.x,
-                               center_y=pose.pose.position.y,
-                               center_theta=yaw,
-                               length=1.4,
-                               height=0.8)
-
-    def compute_edge_pose(self, center_x, center_y, center_theta, length, height):
-        """_summary_
-
-        Args:
-            center_x (float): geometric center x 
-            center_y (float): geometric center y 
-            center_theta (float): geometric center theta
-            length (int): longest side of the palette
-            height (int): shortest side of the palette
-        """
-        self.center_x = center_x  # geometric center x of the palette
-        self.center_y = center_y  # geometric center y of the palette
+        
+        self.center_x = pose.pose.position.x  # geometric center x of the palette
+        self.center_y = pose.pose.position.y  # geometric center y of the palette
         # orientation of the palette wrt the map
-        self.theta = degrees(center_theta)
+        self.orientation_z=pose.pose.orientation.z
+        self.orientation_w=pose.pose.orientation.w
+        self.angle = radians(yaw) # angle should be in radians
         self.length = length  # longest side of the palette
         self.height = height  # shortest side of the palette
 
-        aX, aY = self.center_x - 0.5*self.length*(sin(self.theta) + cos(
-            self.theta)), self.center_y - 0.5*self.height*(sin(self.theta) - cos(self.theta))
-        bX, bY = self.center_x + 0.5*self.length*(sin(self.theta) - cos(
-            self.theta)), self.center_y - 0.5*self.height*(sin(self.theta) + cos(self.theta))
-        cX, cY = self.center_x + 0.5*self.length*(sin(self.theta) + cos(
-            self.theta)), self.center_y + 0.5*self.height*(sin(self.theta) - cos(self.theta))
-        dX, dY = self.center_x - 0.5*self.length*(sin(self.theta) - cos(
-            self.theta)), self.center_y + 0.5*self.height*(sin(self.theta) + cos(self.theta))
+        aX, aY = self.center_x - 0.5*self.length*(sin(self.angle) + cos(
+            self.angle)), self.center_y - 0.5*self.height*(sin(self.angle) - cos(self.angle))
+        bX, bY = self.center_x + 0.5*self.length*(sin(self.angle) - cos(
+            self.angle)), self.center_y - 0.5*self.height*(sin(self.angle) + cos(self.angle))
+        cX, cY = self.center_x + 0.5*self.length*(sin(self.angle) + cos(
+            self.angle)), self.center_y + 0.5*self.height*(sin(self.angle) - cos(self.angle))
+        dX, dY = self.center_x - 0.5*self.length*(sin(self.angle) - cos(
+            self.angle)), self.center_y + 0.5*self.height*(sin(self.angle) + cos(self.angle))
 
-        self.set_pose_A(aX, aY)
-        self.set_pose_B(bX, bY)
-        self.set_pose_C(cX, cY)
-        self.set_pose_D(dX, dY)
+        self.set_pose_A(aX, aY, self.orientation_z, self.orientation_w)
+        self.set_pose_B(bX, bY, self.orientation_z, self.orientation_w)
+        self.set_pose_C(cX, cY, self.orientation_z, self.orientation_w)
+        self.set_pose_D(dX, dY, self.orientation_z, self.orientation_w)
 
-    def set_pose_A(self, aX, aY):
+    def set_pose_A(self, aX, aY, orientation_z, orientation_w,):
         """
         Callback function.
         """
@@ -91,12 +92,12 @@ class ComputeEdgePose(Node):
         goal_pose.pose.position.z = 0.0
         goal_pose.pose.orientation.x = 0.0
         goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose A')
+        goal_pose.pose.orientation.z = orientation_z
+        goal_pose.pose.orientation.w = orientation_w
+        self.get_logger().info('Sending goal to robot A')
         self.publish_edge_A.publish(goal_pose)
 
-    def set_pose_B(self, bX, bY):
+    def set_pose_B(self, bX, bY, orientation_z, orientation_w,):
         """
         Callback function.
         """
@@ -108,12 +109,12 @@ class ComputeEdgePose(Node):
         goal_pose.pose.position.z = 0.0
         goal_pose.pose.orientation.x = 0.0
         goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose B')
+        goal_pose.pose.orientation.z = orientation_z
+        goal_pose.pose.orientation.w = orientation_w
+        self.get_logger().info('Sending goal to robot B')
         self.publish_edge_B.publish(goal_pose)
 
-    def set_pose_C(self, cX, cY):
+    def set_pose_C(self, cX, cY, orientation_z, orientation_w,):
         """
         Callback function.
         """
@@ -125,12 +126,12 @@ class ComputeEdgePose(Node):
         goal_pose.pose.position.z = 0.0
         goal_pose.pose.orientation.x = 0.0
         goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose C')
+        goal_pose.pose.orientation.z = orientation_z
+        goal_pose.pose.orientation.w = orientation_w
+        self.get_logger().info('Sending goal to robot C')
         self.publish_edge_C.publish(goal_pose)
 
-    def set_pose_D(self, dX, dY):
+    def set_pose_D(self, dX, dY, orientation_z, orientation_w,):
         """
         Callback function.
         """
@@ -142,9 +143,9 @@ class ComputeEdgePose(Node):
         goal_pose.pose.position.z = 0.0
         goal_pose.pose.orientation.x = 0.0
         goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose D')
+        goal_pose.pose.orientation.z = orientation_z
+        goal_pose.pose.orientation.w = orientation_w
+        self.get_logger().info('Sending goal to robot D')
         self.publish_edge_D.publish(goal_pose)
 
 

@@ -23,37 +23,24 @@ from math import sqrt
 from matplotlib import pyplot as plt
 from shapely.geometry import Polygon
 
-
-angle = radians(60)
+angle = radians(26)
 center_x = 50
 center_y = 50
 width = 20
-height = 40
+height = 60
 p = sqrt(width*width+height*height)/2
-# top right
-print("A: ", (center_x + ((width *0.5) * cos(angle)) - ((height *0.5) * sin(angle)),
-              center_y + ((width *0.5) * sin(angle)) + ((height *0.5) * cos(angle))))
-#top left
-print("B: ", (center_x - ((width *0.5) * cos(angle)) - ((height *0.5) * sin(angle)),
-              center_y - ((width *0.5) * sin(angle)) + ((height *0.5) * cos(angle))))
-#bottom left
-print("C: ", (center_x - ((width *0.5) * cos(angle)) + ((height *0.5) * sin(angle)),
-              center_y - ((width *0.5) * sin(angle)) - ((height *0.5) * cos(angle))))
-#bottom right
-print("D: ", (center_x + ((width *0.5) * cos(angle)) + ((height *0.5) * sin(angle)),
-              center_y + ((width *0.5) * sin(angle)) - ((height *0.5) * cos(angle))))
 
 
-fig, ax=plt.subplots()
-poly=Polygon([(center_x + ((width *0.5) * cos(angle)) - ((height *0.5) * sin(angle)),
-                center_y + ((width *0.5) * sin(angle)) + ((height *0.5) * cos(angle))),
-                (center_x - ((width *0.5) * cos(angle)) - ((height *0.5) * sin(angle)),
-                 center_y - ((width *0.5) * sin(angle)) + ((height *0.5) * cos(angle))),
-                (center_x - ((width *0.5) * cos(angle)) + ((height *0.5) * sin(angle)),
-                 center_y - ((width *0.5) * sin(angle)) - ((height *0.5) * cos(angle))),
-                (center_x + ((width *0.5) * cos(angle)) + ((height *0.5) * sin(angle)),
-                center_y + ((width *0.5) * sin(angle)) - ((height *0.5) * cos(angle)))])
-x, y=poly.exterior.xy
+aX, aY = center_x - (width *0.5 * cos(angle)) - (height *0.5 * sin(angle)), center_y - ((width *0.5) * sin(angle)) + ((height *0.5) * cos(angle))
+bX, bY = center_x - (width *0.5 * cos(angle)) + (height *0.5 * sin(angle)), center_y - ((width *0.5) * sin(angle)) - ((height *0.5) * cos(angle))
+cX, cY = center_x + (width *0.5 * cos(angle)) + (height *0.5 * sin(angle)), center_y + ((width *0.5) * sin(angle)) - ((height *0.5) * cos(angle))
+dX, dY = center_x + (width *0.5 * cos(angle)) - (height *0.5 * sin(angle)), center_y + ((width *0.5) * sin(angle)) + ((height *0.5) * cos(angle))
+
+
+fig, ax = plt.subplots()
+poly = Polygon([(aX,aY),(bX,bY),(cX,cY),(dX,dY)])
+x, y = poly.exterior.xy
 ax.plot(x, y)
+
 plt.axis([0, 100, 1, 100])
 plt.show()

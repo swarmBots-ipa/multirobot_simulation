@@ -15,88 +15,75 @@ class GoalPublisher(Node):
         """
         # Initiate the Node class's constructor and give it a name
         super().__init__('goal_publisher')
-        # Create publishers
-        self.publish_goal_A = self.create_publisher(
-            PoseStamped, 'barista_0/goal_pose', 10)
-        self.publish_goal_B = self.create_publisher(
-            PoseStamped, 'barista_1/goal_pose', 10)
-        self.publish_goal_C = self.create_publisher(
-            PoseStamped, 'barista_2/goal_pose', 10)
-        self.publish_goal_D = self.create_publisher(
-            PoseStamped, 'barista_3/goal_pose', 10)
+        navigator=BasicNavigator()
+        current_pose = PoseStamped()
+        current_pose.header.frame_id = 'map'
+        current_pose.header.stamp = Node.get_clock(self).now().to_msg()
+        current_pose.pose.position.x = 1.0
+        current_pose.pose.position.y = 1.0
+        current_pose.pose.position.z = 0.0
+        current_pose.pose.orientation.x = 0.0
+        current_pose.pose.orientation.y = 0.0
+        current_pose.pose.orientation.z = 0.7071067811865476
+        current_pose.pose.orientation.w = 0.7071067811865476
+        self.get_logger().info('Sending goal Pose B')
+        self.publish_goal_B.publish(current_pose)
+        navigator.setInitialPose(current_pose)
 
-        self.set_pose_A()
-        self.set_pose_B()
-        self.set_pose_C()
-        self.set_pose_D()
+        navigator.waitUntilNav2Active()
 
-    def set_pose_A(self):
-        """
-        Callback function.
-        """
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'
         goal_pose.header.stamp = Node.get_clock(self).now().to_msg()
         goal_pose.pose.position.x = 1.0
-        goal_pose.pose.position.y = 5.0
+        goal_pose.pose.position.y = 1.0
         goal_pose.pose.position.z = 0.0
         goal_pose.pose.orientation.x = 0.0
         goal_pose.pose.orientation.y = 0.0
         goal_pose.pose.orientation.z = 0.7071067811865476
         goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose A')
-        self.publish_goal_A.publish(goal_pose)
+        navigator.goToPose(goal_pose)
 
-    def set_pose_B(self):
-        """
-        Callback function.
-        """
-        goal_pose = PoseStamped()
-        goal_pose.header.frame_id = 'map'
-        goal_pose.header.stamp = Node.get_clock(self).now().to_msg()
-        goal_pose.pose.position.x = 2.0
-        goal_pose.pose.position.y = 5.0
-        goal_pose.pose.position.z = 0.0
-        goal_pose.pose.orientation.x = 0.0
-        goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose B')
-        self.publish_goal_B.publish(goal_pose)
+        path = navigator.getPath(init_pose, goal_pose)
+        smoothed_path = navigator.smoothPath(path)
+        print(smoothed_path)
+        # i = 0
+        # while not navigator.isTaskComplete():
+        #     ################################################
+        #     #
+        #     # Implement some code here for your application!
+        #     #
+        #     ################################################
 
-    def set_pose_C(self):
-        """
-        Callback function.
-        """
-        goal_pose = PoseStamped()
-        goal_pose.header.frame_id = 'map'
-        goal_pose.header.stamp = Node.get_clock(self).now().to_msg()
-        goal_pose.pose.position.x = 3.0
-        goal_pose.pose.position.y = 5.0
-        goal_pose.pose.position.z = 0.0
-        goal_pose.pose.orientation.x = 0.0
-        goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose C')
-        self.publish_goal_C.publish(goal_pose)
+        #     # Do something with the feedback
+        #     i = i + 1
+        #     feedback = navigator.getFeedback()
+        #     if feedback and i % 5 == 0:
+        #         print('Estimated time of arrival: ' + '{0:.0f}'.format(
+        #             Duration.from_msg(feedback.estimated_time_remaining).nanoseconds / 1e9)
+        #             + ' seconds.')
 
-    def set_pose_D(self):
-        """
-        Callback function.
-        """
-        goal_pose = PoseStamped()
-        goal_pose.header.frame_id = 'map'
-        goal_pose.header.stamp = Node.get_clock(self).now().to_msg()
-        goal_pose.pose.position.x = 4.0
-        goal_pose.pose.position.y = 5.0
-        goal_pose.pose.position.z = 0.0
-        goal_pose.pose.orientation.x = 0.0
-        goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose D')
-        self.publish_goal_D.publish(goal_pose)
+        #         # Some navigation timeout to demo cancellation
+        #         if Duration.from_msg(feedback.navigation_time) > Duration(seconds=600.0):
+        #             navigator.cancelTask()
+
+        #         # Some navigation request change to demo preemption
+        #         if Duration.from_msg(feedback.navigation_time) > Duration(seconds=18.0):
+        #             goal_pose.pose.position.x = -3.0
+        #             navigator.goToPose(goal_pose)
+
+        # # Do something depending on the return code
+        # result = navigator.getResult()
+        # if result == TaskResult.SUCCEEDED:
+        #     print('Goal succeeded!')
+        # elif result == TaskResult.CANCELED:
+        #     print('Goal was canceled!')
+        # elif result == TaskResult.FAILED:
+        #     print('Goal failed!')
+        # else:
+        #     print('Goal has an invalid return status!')
+
+        # navigator.lifecycleShutdown()
 
 
 def main(args=None):

@@ -99,7 +99,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.y = 0.0
         goal_pose.pose.orientation.z = orientation_z
         goal_pose.pose.orientation.w = orientation_w
-        self.get_logger().info('Sending goal [%f, %f] to robot A'%( aX, aY))
+        self.get_logger().info('Robot  A moving to [%f, %f]'%( aX, aY))
         self.publish_edge_A.publish(goal_pose)
 
     def set_pose_B(self, bX, bY, orientation_z, orientation_w,):
@@ -121,7 +121,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.y = 0.0
         goal_pose.pose.orientation.z = orientation_z
         goal_pose.pose.orientation.w = orientation_w
-        self.get_logger().info('Sending goal [%f, %f] to robot B'%( bX, bY))
+        self.get_logger().info('Robot B moving to [%f, %f]'%( bX, bY))
         self.publish_edge_B.publish(goal_pose)
 
     def set_pose_C(self, cX, cY, orientation_z, orientation_w,):
@@ -143,7 +143,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.y = 0.0
         goal_pose.pose.orientation.z = orientation_z
         goal_pose.pose.orientation.w = orientation_w
-        self.get_logger().info('Sending goal [%f, %f] to robot C'%( cX, cY))
+        self.get_logger().info('Robot C moving to [%f, %f]'%( cX, cY))
         self.publish_edge_C.publish(goal_pose)
 
     def set_pose_D(self, dX, dY, orientation_z, orientation_w,):
@@ -165,7 +165,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.y = 0.0
         goal_pose.pose.orientation.z = orientation_z
         goal_pose.pose.orientation.w = orientation_w
-        self.get_logger().info('Sending goal [%f, %f] to robot D'%( dX, dY))
+        self.get_logger().info('Robot D moving to [%f, %f]'%( dX, dY))
         self.publish_edge_D.publish(goal_pose)
 
 

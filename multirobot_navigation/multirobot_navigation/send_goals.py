@@ -1,99 +1,73 @@
 #! /usr/bin/env python3
 
-from geometry_msgs.msg import PoseStamped
-from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
+from nav2_msgs.action import NavigateToPose
+from action_msgs.msg import GoalStatus
+
 import rclpy
+from rclpy.action import ActionClient
 from rclpy.node import Node
-from rclpy.duration import Duration
 
 
 class GoalPublisher(Node):
 
     def __init__(self):
-        """
-        Class constructor to set up the node
-        """
-        # Initiate the Node class's constructor and give it a name
-        super().__init__('goal_publisher')
-        navigator=BasicNavigator()
-        current_pose = PoseStamped()
-        current_pose.header.frame_id = 'map'
-        current_pose.header.stamp = Node.get_clock(self).now().to_msg()
-        current_pose.pose.position.x = 1.0
-        current_pose.pose.position.y = 1.0
-        current_pose.pose.position.z = 0.0
-        current_pose.pose.orientation.x = 0.0
-        current_pose.pose.orientation.y = 0.0
-        current_pose.pose.orientation.z = 0.7071067811865476
-        current_pose.pose.orientation.w = 0.7071067811865476
-        self.get_logger().info('Sending goal Pose B')
-        self.publish_goal_B.publish(current_pose)
-        navigator.setInitialPose(current_pose)
+        super().__init__('goal_publisher',
+                         allow_undeclared_parameters=True,
+                         automatically_declare_parameters_from_overrides=True)
 
-        navigator.waitUntilNav2Active()
+        self._action_client_0 = ActionClient(
+            self, NavigateToPose, '/barista_0/navigate_to_pose')
 
-        goal_pose = PoseStamped()
-        goal_pose.header.frame_id = 'map'
-        goal_pose.header.stamp = Node.get_clock(self).now().to_msg()
-        goal_pose.pose.position.x = 1.0
-        goal_pose.pose.position.y = 1.0
-        goal_pose.pose.position.z = 0.0
-        goal_pose.pose.orientation.x = 0.0
-        goal_pose.pose.orientation.y = 0.0
-        goal_pose.pose.orientation.z = 0.7071067811865476
-        goal_pose.pose.orientation.w = 0.7071067811865476
-        navigator.goToPose(goal_pose)
+    def send_goal(self):
+        goal_pose = NavigateToPose.Goal()
+        goal_pose.pose.header.frame_id = 'map'
+        goal_pose.pose.header.stamp = Node.get_clock(self).now().to_msg()
+        goal_pose.pose.pose.position.x = 2.0
+        goal_pose.pose.pose.position.y = 3.0
+        goal_pose.pose.pose.position.z = 0.0
+        goal_pose.pose.pose.orientation.x = 0.0
+        goal_pose.pose.pose.orientation.y = 0.0
+        goal_pose.pose.pose.orientation.z = 0.7071067811865476
+        goal_pose.pose.pose.orientation.w = 0.7071067811865476
 
-        path = navigator.getPath(init_pose, goal_pose)
-        smoothed_path = navigator.smoothPath(path)
-        print(smoothed_path)
-        # i = 0
-        # while not navigator.isTaskComplete():
-        #     ################################################
-        #     #
-        #     # Implement some code here for your application!
-        #     #
-        #     ################################################
+        self._action_client_0.wait_for_server()
 
-        #     # Do something with the feedback
-        #     i = i + 1
-        #     feedback = navigator.getFeedback()
-        #     if feedback and i % 5 == 0:
-        #         print('Estimated time of arrival: ' + '{0:.0f}'.format(
-        #             Duration.from_msg(feedback.estimated_time_remaining).nanoseconds / 1e9)
-        #             + ' seconds.')
+        self._send_goal_future = self._action_client_0.send_goal_async(
+            goal_pose,
+            feedback_callback=self.feedback_callback)
 
-        #         # Some navigation timeout to demo cancellation
-        #         if Duration.from_msg(feedback.navigation_time) > Duration(seconds=600.0):
-        #             navigator.cancelTask()
+        self._send_goal_future.add_done_callback(self.goal_response_callback)
 
-        #         # Some navigation request change to demo preemption
-        #         if Duration.from_msg(feedback.navigation_time) > Duration(seconds=18.0):
-        #             goal_pose.pose.position.x = -3.0
-        #             navigator.goToPose(goal_pose)
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().info('Goal rejected')
+            return
 
-        # # Do something depending on the return code
-        # result = navigator.getResult()
-        # if result == TaskResult.SUCCEEDED:
-        #     print('Goal succeeded!')
-        # elif result == TaskResult.CANCELED:
-        #     print('Goal was canceled!')
-        # elif result == TaskResult.FAILED:
-        #     print('Goal failed!')
-        # else:
-        #     print('Goal has an invalid return status!')
+        self.get_logger().info('Goal accepted')
+        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future.add_done_callback(self.get_result_callback)
 
-        # navigator.lifecycleShutdown()
+    def get_result_callback(self, future):
+        result = future.result().result
+        status = future.result().status
+        if status == GoalStatus.STATUS_SUCCEEDED:
+            self.get_logger().info('Navigation succeeded! ')
+        else:
+            self.get_logger().info(
+                'Navigation failed with status: {0}'.format(status))
+
+    def feedback_callback(self, feedback_msg):
+        feedback = feedback_msg.feedback
 
 
 def main(args=None):
-
     rclpy.init(args=args)
     try:
-        goal_publisher = GoalPublisher()
-        rclpy.spin(goal_publisher)
+        action_client = GoalPublisher()
+        action_client.send_goal()
+        rclpy.spin(action_client)
     except KeyboardInterrupt:
-        goal_publisher.destroy_node()
         rclpy.shutdown()
 
 

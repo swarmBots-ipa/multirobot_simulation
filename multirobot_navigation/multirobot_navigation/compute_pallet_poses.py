@@ -99,7 +99,7 @@ class ComputeEdgePose(Node):
         goal_pose.pose.orientation.y = 0.0
         goal_pose.pose.orientation.z = orientation_z
         goal_pose.pose.orientation.w = orientation_w
-        self.get_logger().info('Robot  A moving to [%f, %f]'%( aX, aY))
+        self.get_logger().info('Robot A moving to [%f, %f]'%( aX, aY))
         self.publish_edge_A.publish(goal_pose)
 
     def set_pose_B(self, bX, bY, orientation_z, orientation_w,):

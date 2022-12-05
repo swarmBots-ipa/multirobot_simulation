@@ -23,10 +23,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'send_goals = multirobot_navigation.goal_publisher:main',
-            'reset_pose=multirobot_navigation.reset_pose:main',
-            'pallet_side_goals=multirobot_navigation.pallet_side_goals:main',
-            'compute_edge_poses=multirobot_navigation.compute_pallet_poses:main'
+            'main_function = multirobot_navigation.main:main',
+            'reset_robot_pose=multirobot_navigation.robot_reset_pose:main',
+            'send_pallet_pose=multirobot_navigation.send_pallet_poses:main'
         ],
     },
 )

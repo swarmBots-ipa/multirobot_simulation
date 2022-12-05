@@ -11,26 +11,21 @@ from rclpy.node import Node
 
 class GoalPublisher(Node):
 
-    def __init__(self):
-        super().__init__('goal_publisher',
+    def __init__(self, robot_id):
+        super().__init__(str('goal_publisher_client_'+str(robot_id)),
                          allow_undeclared_parameters=True,
                          automatically_declare_parameters_from_overrides=True)
         # subscribes the pallet edge poses
-        self.subscribe_pose_0 = self.create_subscription(
-            PoseStamped, 'barista_0/send_pose', self.get_pose_A, 10)
-        # self.subscribe_pose_1 = self.create_subscription(
-        #     PoseStamped, 'barista_1/send_pose', self.get_pose_B, 10)
-        # self.subscribe_pose_2 = self.create_subscription(
-        #     PoseStamped, 'barista_2/send_pose', self.get_pose_C, 10)
-        # self.subscribe_pose_3 = self.create_subscription(
-        #     PoseStamped, 'barista_3/send_pose', self.get_pose_D, 10)
+        subscription_topic  = 'barista_'+str(robot_id)+'/send_pose'
+        action_topic = '/barista_'+str(robot_id)+'/navigate_to_pose'
+        self.ROBOT_ID = robot_id
+        self.subscribe_pose = self.create_subscription(
+            PoseStamped, subscription_topic, self.send_pose, 10)
+        self.nav_to_pose_action_client = ActionClient(
+            self, NavigateToPose, action_topic)
 
-        self._action_client_0 = ActionClient(
-            self, NavigateToPose, '/barista_0/navigate_to_pose')
-        # self._action_client_1 = ActionClient(
-        #     self, NavigateToPose, '/barista_1/navigate_to_pose')
 
-    def get_pose_A(self, pose):
+    def send_pose(self, pose):
         goal_pose = NavigateToPose.Goal()
         goal_pose.pose.header.frame_id = pose.header.frame_id
         goal_pose.pose.header.stamp = pose.header.stamp
@@ -42,22 +37,22 @@ class GoalPublisher(Node):
         goal_pose.pose.pose.orientation.z = pose.pose.orientation.z
         goal_pose.pose.pose.orientation.w = pose.pose.orientation.w
 
-        self._action_client_0.wait_for_server()
-        self._send_goal_future = self._action_client_0.send_goal_async(
+        self.nav_to_pose_action_client.wait_for_server()
+        self._send_goal_future = self.nav_to_pose_action_client.send_goal_async(
             goal_pose,
             feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
-    def goal_response_A_callback(self, future):
+    def goal_response_callback(self, future):
         goal_handle = future.result()
         if not goal_handle.accepted:
-            self.get_logger().info('Goal rejected by Robot_0')
+            self.get_logger().info('Goal rejected by {0}'.format(self.ROBOT_ID))
             return
-        self.get_logger().info('Goal accepted by Robot_0')
+        self.get_logger().info('Goal accepted by {0}'.format(self.ROBOT_ID))
         self._get_result_future = goal_handle.get_result_async()
         self._get_result_future.add_done_callback(self.get_result_callback)
 
-    def get_result_A_callback(self, future):
+    def get_result_callback(self, future):
         result = future.result().result
         status = future.result().status
         # PENDING=0
@@ -71,10 +66,10 @@ class GoalPublisher(Node):
         # RECALLED=8
         # LOST=9
         if status == GoalStatus.STATUS_SUCCEEDED:
-            self.get_logger().info('Navigation succeeded for Robot_0!')
+            self.get_logger().info('Navigation succeeded for Robot_{0}'.format(self.ROBOT_ID))
         else:
             self.get_logger().info(
-                'Navigation failed for Robot_0 with status: {0}'.format(status))
+                'Navigation failed for Robot_{0} with status: {0}'.format(self.ROBOT_ID,status))
 
     def feedback_callback(self, feedback_msg):
         feedback = feedback_msg.feedback
@@ -83,8 +78,8 @@ class GoalPublisher(Node):
 def main(args=None):
     rclpy.init(args=args)
     try:
-        action_client_nav2 = GoalPublisher()
-        rclpy.spin(action_client_nav2)
+        action_client_robot_0 = GoalPublisher(robot_id=2)
+        rclpy.spin(action_client_robot_0)
     except KeyboardInterrupt:
         rclpy.shutdown()
 

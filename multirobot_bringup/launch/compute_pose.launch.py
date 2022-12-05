@@ -8,8 +8,8 @@ def generate_launch_description():
     ld = LaunchDescription()
     node = Node(
         package='multirobot_navigation',
-        name='compute_edge_poses',
-        executable='compute_edge_poses',
+        name='send_edge_poses',
+        executable='main_function',
     )
     ld.add_action(node)
     return ld

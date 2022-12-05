@@ -11,8 +11,8 @@ def generate_launch_description():
 
     node = Node(
         package='multirobot_navigation',
-        name='send_goals',
-        executable='send_goals',
+        name='send_pallet_pose',
+        executable='send_pallet_pose',
         #parameters=[config]
     )
     ld.add_action(node)

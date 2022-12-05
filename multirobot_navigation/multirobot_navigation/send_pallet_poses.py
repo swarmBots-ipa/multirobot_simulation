@@ -12,11 +12,10 @@ class ComputeEdgePose(Node):
     """Compute the edge poses of the palette and publish the poses to the robots.
     """
 
-    def __init__(self, width, height):
+    def __init__(self):
+
         # Initiate the Node class's constructor and give it a name
         super().__init__('pallet_pose_publisher')
-        self.PALLET_WIDTH = width
-        self.PALLET_HEIGHT = height
         self.subscribe_palette_center = self.create_subscription(
             PoseStamped, 'palette/goal_pose', self.get_palette_center_cb, 10)
         # Create publishers to send goals to each robot 
@@ -45,8 +44,8 @@ class ComputeEdgePose(Node):
         yaw = atan2(t3, t4)
         self.compute_pallet_edge(pose,
                                  center_angle=yaw,
-                                 width=self.PALLET_WIDTH,
-                                 height=self.PALLET_HEIGHT)
+                                 width=1.6,
+                                 height=1)
 
     def compute_pallet_edge(self, pose, center_angle, width, height):
         """Compute the poses of robots 0-3 and send them to the robots
@@ -171,3 +170,17 @@ class ComputeEdgePose(Node):
         self.get_logger().info('Robot D estimated pose [%f, %f]' % (dX, dY))
         self.publish_edge_D.publish(goal_pose)
 
+
+def main(args=None):
+
+    rclpy.init(args=args)
+    try:
+        pallet_pose_publisher = ComputeEdgePose()
+        rclpy.spin(pallet_pose_publisher)
+    except KeyboardInterrupt:
+        pallet_pose_publisher.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

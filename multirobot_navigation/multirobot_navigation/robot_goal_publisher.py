@@ -3,7 +3,7 @@
 from nav2_msgs.action import NavigateToPose
 from action_msgs.msg import GoalStatus
 from geometry_msgs.msg import PoseStamped
-
+from std_msgs.msg import String
 import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
@@ -18,9 +18,11 @@ class GoalPublisher(Node):
         # subscribes the pallet edge poses
         subscription_topic  = 'barista_'+str(robot_id)+'/send_pose'
         action_topic = '/barista_'+str(robot_id)+'/navigate_to_pose'
-        self.ROBOT_ID = robot_id
+        goal_topic = '/barista_'+str(robot_id)+'/goal_status'
+        self.ROBOT_ID = robot_id    
         self.subscribe_pose = self.create_subscription(
             PoseStamped, subscription_topic, self.send_pose, 10)
+        self.publisher_ = self.create_publisher(String, goal_topic, 10)
         self.nav_to_pose_action_client = ActionClient(
             self, NavigateToPose, action_topic)
 
@@ -67,6 +69,9 @@ class GoalPublisher(Node):
         # LOST=9
         if status == GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info('Navigation succeeded for Robot_{0}'.format(self.ROBOT_ID))
+            msg = String()
+            msg.data = "goal_reached"
+            self.publisher_.publish(msg)
         else:
             self.get_logger().info(
                 'Navigation failed for Robot_{0} with status: {0}'.format(self.ROBOT_ID,status))

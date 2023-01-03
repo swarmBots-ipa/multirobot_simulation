@@ -24,13 +24,13 @@ ros2 launch multirobot_bringup multirobot_bringup.launch.xml
 ````
 ros2 run multirobot_navigation compute_pallet_pose
 ````
+Run the launch files 1 and 2 only for development
 ## 3. Single command to bringup entire simulation
-
 ````
 ros2 launch multirobot_bringup simulation_bringup.launch.xml
 ````
 
 ### To perform Localization error experiments
-1. Run the launch files in 1 and 2.
+1. Run the launch files 3 for performing the experiments
 2. Select 2D Goal Pose on the rviz and choose a pose and wait for the robot navigation to complete.
 3. Repeat the experiment by selecting multiple pose within the map.

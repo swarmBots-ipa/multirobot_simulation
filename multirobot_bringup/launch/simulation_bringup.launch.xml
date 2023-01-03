@@ -1,23 +1,7 @@
 <?xml version='1.0'?>
 <launch>
-    <arg name="number_of_robots" default="4" />
-
-    <!-- Launches World now independently form spawning robot -->
-    <include file="$(find-pkg-share barista_gazebo)/launch/start_world_standalone.launch.py" />
-
-    <!-- launches the basic turtlebot3 world with multiple basic turtlebot -->
-    <include file="$(find-pkg-share barista_gazebo)/launch/barista_0.launch.py" />
-    <include file="$(find-pkg-share barista_gazebo)/launch/barista_1.launch.py" />
-    <include file="$(find-pkg-share barista_gazebo)/launch/barista_2.launch.py" />
-    <include file="$(find-pkg-share barista_gazebo)/launch/barista_3.launch.py" />
-
-    <!-- Launches localization server -->
-    <include file="$(find-pkg-share localization_server)/launch/localization.launch.py" />
-    <!-- Launch rviz2 with config files -->
-    <include file="$(find-pkg-share localization_server)/launch/rviz_config.launch.py" />
-    <!-- Launches path planning server -->
-    <include file="$(find-pkg-share path_planner_server)/launch/pathplanner.launch.py" />
-    <!-- Launches sending pallet pose function-->
-    <include file="$(find-pkg-share multirobot_bringup)/launch/compute_pose.launch.py" />
-
+    <!-- Bringsup the entire multirobot simulation world -->
+    <include file="$(find-pkg-share multirobot_bringup)/launch/multirobot_bringup.launch.xml" />
+    <!-- Launches sending pallet pose node -->
+    <node pkg="multirobot_navigation"  exec="compute_pallet_pose"/>
 </launch>

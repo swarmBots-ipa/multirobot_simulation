@@ -22,7 +22,12 @@ ros2 launch multirobot_bringup multirobot_bringup.launch.xml
 ````
 ## 2. Send pallet pose from rviz2
 ````
-ros2 run multirobot_navigation main_function
+ros2 run multirobot_navigation compute_pallet_pose
+````
+## 3. Single command to bringup entire simulation
+
+````
+ros2 launch multirobot_bringup simulation_bringup.launch.xml
 ````
 
 ### To perform Localization error experiments
